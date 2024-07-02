@@ -18,5 +18,5 @@ public class Wallet {
 
     @Getter
     @Setter
-    private Long balance;
+    private Float balance;
 }

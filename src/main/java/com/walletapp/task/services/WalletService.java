@@ -1,5 +1,6 @@
 package com.walletapp.task.services;
 
+import com.walletapp.task.DTO.WalletCreationDto;
 import com.walletapp.task.DTO.WalletRequest;
 import com.walletapp.task.entities.Wallet;
 import com.walletapp.task.entities.enums.OperationType;
@@ -36,5 +37,19 @@ public class WalletService {
 
     public Optional<Wallet> getWalletById(Long id) {
         return walletRepository.findById(id);
+    }
+
+    public void createNewWallet(WalletCreationDto walletCreationDto) {
+        Wallet wallet = new Wallet();
+        if (walletCreationDto.getInitialDeposit() != null) {
+            if (walletCreationDto.getInitialDeposit() > 0) {
+                wallet.setBalance(walletCreationDto.getInitialDeposit());
+                walletRepository.save(wallet);
+            } else {
+                throw new IllegalArgumentException("Некорректный начальный депозит: значение должно быть больше нуля");
+            }
+        } else {
+            throw new NullPointerException("Не может быть передано пустое (null) значение депозита");
+        }
     }
 }
