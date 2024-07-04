@@ -18,7 +18,7 @@ public class WalletService {
 
     @Transactional
     public void processTransaction(WalletRequest request) {
-        Wallet wallet = walletRepository.findById(request.getWalletId())
+        Wallet wallet = walletRepository.findByIdForUpdate(request.getWalletId())
                 .orElseThrow(() -> new IllegalArgumentException("Кошелек не найден"));
 
         if ("DEPOSIT".equalsIgnoreCase(request.getOperationType())) {
